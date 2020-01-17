@@ -9,7 +9,7 @@ install:
   - pip install -r services/server/requirements.txt
   - pip install flake8
 
-linting:
+before_script:
   - flake8 services/
 
   script:
