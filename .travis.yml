@@ -7,7 +7,6 @@ python:
 
 install:
   - pip install -r services/server/requirements.txt
-  - pip install flake8
 
 before_script:
   - flake8 services/
