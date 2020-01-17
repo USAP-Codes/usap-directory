@@ -2,6 +2,7 @@
 
 import json
 
+
 def test_app(test_app):
     client = test_app.test_client()
     response = client.get('/app')

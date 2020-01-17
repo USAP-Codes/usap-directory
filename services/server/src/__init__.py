@@ -1,6 +1,5 @@
 # services/server/src/__init__.py
 
-import os
 from flask import Flask
 
 
@@ -10,8 +9,8 @@ def create_app():
     app = Flask(__name__)
 
     # set configs
-    #app_settings = os.getenv("APP_SETTINGS")
-    #app.config.from_object(app_settings)
+    # app_settings = os.getenv("APP_SETTINGS")
+    # app.config.from_object(app_settings)
 
     # register api to flask
     from src.api import api
@@ -22,5 +21,5 @@ def create_app():
     @app.shell_context_processor
     def ctx():
         return {"app": app}
-    
+
     return app
