@@ -10,7 +10,24 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
+- Python 3.6+
+- Docker(optional)
+
 ### Installing
+
+- There are two ways to run the application. You can either run it in docker container(s) or in you virtual environment.
+
+#### Docker
+
+- This assumes you have docker daemon installed on your machine. Beauty of this it doesn't matter what machine you run this from, Windows, Linux, Mac.
+- Check Makefile in ```./services``` folder
+- Run the following command
+
+``` makefile
+make build-server # builds docker image and runs the application
+```
+
+- Check the ```./docker-compose.yml``` file. That's where the entrypoint script is specified.
 
 ## Running the tests
 
