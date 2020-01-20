@@ -24,7 +24,7 @@ These instructions will get you a copy of the project up and running on your loc
 - Run the following command
 
 ``` makefile
-make build-server # builds docker image and runs the application
+make build_server # builds docker image and runs the application
 ```
 
 - Check the ```./docker-compose.yml``` file. That's where the entrypoint script is specified.
