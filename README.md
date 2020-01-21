@@ -29,6 +29,8 @@ make build_server # builds docker image and runs the application
 
 - Check the ```./docker-compose.yml``` file. That's where the entrypoint script is specified.
 
+- Go to http://localhost:5001/app after running the docker compose file. 
+
 ## Running the tests
 
 ### Automated Tests
