@@ -5,19 +5,18 @@ class User(db.Model):
 
     __tablename__ = "users"
 
-    id = db.Column(db.Serial, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False)
-    image_url = db.Column(db.String, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, unique=True, nullable=False)
+    email = db.Column(db.String, unique=True, nullable=False)
+    image_url = db.Column(db.String, unique=True, nullable=False)
 
-    alumni = db.relationship(
-        'Alumni',
-        uselist=False,
-        back_populates='users'
+    alumnus = db.relationship(
+        'Alumnus',
+        backref=db.backref('users', uselist=False)
     )
 
-    def __init__(self, name=None, email=None, image_url=None):
-        self.name = name
+    def __init__(self, username=None, email=None, image_url=None):
+        self.username = username
         self.email = email
         self.image_url = image_url
 
@@ -29,7 +28,7 @@ class Alumnus(db.Model):
 
     __tablename__ = "alumni"
 
-    alumnus_id = db.Column(db.Serial, primary_key=True)
+    alumnus_id = db.Column(db.Integer, primary_key=True)
     image_url = db.Column(db.String, nullable=False)
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
@@ -39,21 +38,22 @@ class Alumnus(db.Model):
     graduate_school = db.Column(db.String)
     usap_class = db.Column(db.Integer, nullable=False)
     graduation_year = db.Column(db.Integer, nullable=False)
-    city_of_residence = db.Column(db.Integer, nullable=False)
-    country_of_residence = db.Column(db.Column, nullable=False)
+    city_of_residence = db.Column(db.String, nullable=False)
+    country_of_residence = db.Column(db.String, nullable=False)
 
-    work_history = db.relationship('WorkHistory', backref='alumni')
-    emails = db.relationship('Email', backref='alumni')
-    phone_numbers = db.relationship('PhoneNumber', backref='alumni')
-    majors = db.relationship('Major', backref='alumni')
-    minors = db.relationship('Minor', backref='alumni')
-    expertise = db.relationship('Expertise', backref='alumni')
-    sectors = db.relationship('Sectors', backref='alumni')
-    user = db.relationship(
-        'User',
-        uselist=False,
-        back_populates='alumni'
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id'),
+        nullable=False
     )
+
+    work_history = db.relationship('WorkHistory', backref='alumni', lazy=True)
+    emails = db.relationship('Email', backref='alumni', lazy=True)
+    phone_numbers = db.relationship('PhoneNumber', backref='alumni', lazy=True)
+    majors = db.relationship('Major', backref='alumni', lazy=True)
+    minors = db.relationship('Minor', backref='alumni', lazy=True)
+    expertise = db.relationship('Expertise', backref='alumni', lazy=True)
+    sectors = db.relationship('Sector', backref='alumni', lazy=True)
 
     def __init__(self, image_url=None, first_name=None,
                  last_name=None, country_of_origin=None,
@@ -74,15 +74,19 @@ class Alumnus(db.Model):
         self.city_of_residence = city_of_residence
         self.country_of_residence = country_of_residence
 
+    def __repr__(self):
+        return '<Alumnus {0}>'.format(self.first_name)
+
 
 class WorkHistory(db.Model):
 
     __tablename__ = "work_history"
 
-    id = db.Column(db.Serial, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     alumnus_id = db.Column(
         db.Integer,
-        db.ForeignKey('Alumni.alumnus_id')
+        db.ForeignKey('alumni.alumnus_id'),
+        nullable=False
     )
     company_name = db.Column(db.String, nullable=False)
     city = db.Column(db.String, nullable=False)
@@ -101,74 +105,119 @@ class WorkHistory(db.Model):
         self.end_date = end_date
         self.title = title
 
+    def __repr__(self):
+        return '<WorkHistory {0}>'.format(self.company_name)
+
 
 class Email(db.Model):
 
     __tablename__ = "emails"
 
-    id = db.Column(db.Serial, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     address = db.Column(db.String, nullable=False)
     alumnus_id = db.Column(
         db.Integer,
-        db.ForeignKey('Alumni.alumnus_id')
+        db.ForeignKey('alumni.alumnus_id'),
+        nullable=False
     )
+
+    def __init__(self, address=None):
+        self.address = address
+
+    def __repr__(self):
+        return '<Email {0}>'.format(self.address)
 
 
 class PhoneNumber(db.Model):
 
     __tablename__ = "phone_numbers"
 
-    id = db.Column(db.Serial, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     number = db.Column(db.String, nullable=False)
     alumnus_id = db.Column(
         db.Integer,
-        db.ForeignKey('Alumni.alumnus_id')
+        db.ForeignKey('alumni.alumnus_id'),
+        nullable=False
     )
+
+    def __init__(self, number=None):
+        self.number = number
+
+    def __repr__(self):
+        return '<PhoneNumber {0}>'.format(self.number)
 
 
 class Major(db.Model):
 
     __tablename__ = "majors"
 
-    id = db.Column(db.Serial, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String, nullable=False)
     alumnus_id = db.Column(
         db.Integer,
-        db.ForeignKey('Alumni.alumnus_id')
+        db.ForeignKey('alumni.alumnus_id'),
+        nullable=False
     )
+
+    def __init__(self, subject=None):
+        self.subject = subject
+
+    def __repr__(self):
+        return '<Major {0}>'.format(self.subject)
 
 
 class Minor(db.Model):
 
     __tablename__ = "minors"
 
-    id = db.Column(db.Serial, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     subject = db.Column(db.String, nullable=False)
     alumnus_id = db.Column(
         db.Integer,
-        db.ForeignKey('Alumni.alumnus_id')
+        db.ForeignKey('alumni.alumnus_id'),
+        nullable=False
     )
+
+    def __init__(self, subject=None):
+        self.subject = subject
+
+    def __repr__(self):
+        return '<Minor {0}>'.format(self.subject)
 
 
 class Expertise(db.Model):
 
     __tablename__ = "expertise"
 
-    id = db.Column(db.Serial, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     skill = db.Column(db.String, nullable=False)
     alumnus_id = db.Column(
         db.Integer,
-        db.ForeignKey('Alumni.alumnus_id')
+        db.ForeignKey('alumni.alumnus_id'),
+        nullable=False
     )
+
+    def __init__(self, skill=None):
+        self.skill = skill
+
+    def __repr__(self):
+        return '<Expertise {0}>'.format(self.skill)
 
 
 class Sector(db.Model):
 
-    __tablename__ = "majors"
+    __tablename__ = "sectors"
 
-    id = db.Column(db.Serial, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     industry = db.Column(db.String, nullable=False)
     alumnus_id = db.Column(
         db.Integer,
-        db.ForeignKey('Alumni.alumnus_id')
+        db.ForeignKey('alumni.alumnus_id'),
+        nullable=False
     )
+
+    def __init__(self, industry=None):
+        self.industry = industry
+
+    def __repr__(self):
+        return '<Sector {0}>'.format(self.industry)
