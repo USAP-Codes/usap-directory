@@ -1,6 +1,8 @@
 # services/server/src/__init__.py
+import os
 
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 
 def create_app():
@@ -9,8 +11,7 @@ def create_app():
     app = Flask(__name__)
 
     # set configs
-    # app_settings = os.getenv("APP_SETTINGS")
-    # app.config.from_object(app_settings)
+    app.config.from_object(os.environ["APP_SETTINGS"])
 
     # register api to flask
     from src.api import api
@@ -23,3 +24,8 @@ def create_app():
         return {"app": app}
 
     return app
+
+
+app = create_app()
+
+db = SQLAlchemy(app)
