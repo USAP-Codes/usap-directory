@@ -15,7 +15,8 @@ class User(db.Model):
         backref=db.backref('users', uselist=False)
     )
 
-    def __init__(self, username=None, email=None, image_url=None):
+    def __init__(self, id=None, username=None, email=None, image_url=None):
+        self.id = id
         self.username = username
         self.email = email
         self.image_url = image_url
@@ -55,13 +56,14 @@ class Alumnus(db.Model):
     expertise = db.relationship('Expertise', backref='alumni', lazy=True)
     sectors = db.relationship('Sector', backref='alumni', lazy=True)
 
-    def __init__(self, image_url=None, first_name=None,
+    def __init__(self, id=None, image_url=None, first_name=None,
                  last_name=None, country_of_origin=None,
                  high_school=None, undergrad_school=None,
                  graduate_school=None, usap_class=None,
                  graduation_year=None, city_of_residence=None,
                  country_of_residence=None, user_id=None):
 
+        self.id = id
         self.image_url = image_url
         self.first_name = first_name
         self.last_name = last_name
@@ -96,10 +98,11 @@ class WorkHistory(db.Model):
     end_date = db.Column(db.Date, nullable=False)
     title = db.Column(db.String, nullable=False)
 
-    def __init__(self, company_name=None, city=None, country=None,
+    def __init__(self, id=None, company_name=None, city=None, country=None,
                  start_date=None, end_date=None, title=None,
                  alumnus_id=None):
 
+        self.id = id
         self.company_name = company_name
         self.city = city
         self.country = country
@@ -124,7 +127,8 @@ class Email(db.Model):
         nullable=False
     )
 
-    def __init__(self, address=None, alumnus_id=None):
+    def __init__(self, id=None, address=None, alumnus_id=None):
+        self.id = id
         self.address = address
         self.alumnus_id = alumnus_id
 
@@ -144,7 +148,8 @@ class PhoneNumber(db.Model):
         nullable=False
     )
 
-    def __init__(self, number=None, alumnus_id=None):
+    def __init__(self, id=None, number=None, alumnus_id=None):
+        self.id = id
         self.number = number
         self.alumnus_id = alumnus_id
 
@@ -164,7 +169,8 @@ class Major(db.Model):
         nullable=False
     )
 
-    def __init__(self, subject=None, alumnus_id=None):
+    def __init__(self, id=None, subject=None, alumnus_id=None):
+        self.id = id
         self.subject = subject
         self.alumnus_id = alumnus_id
 
@@ -184,7 +190,8 @@ class Minor(db.Model):
         nullable=False
     )
 
-    def __init__(self, subject=None, alumnus_id=None):
+    def __init__(self, id=None, subject=None, alumnus_id=None):
+        self.id = id    
         self.subject = subject
         self.alumnus_id = alumnus_id
 
@@ -204,7 +211,8 @@ class Expertise(db.Model):
         nullable=False
     )
 
-    def __init__(self, skill=None, alumnus_id=None):
+    def __init__(self, id=None, skill=None, alumnus_id=None):
+        self.id = id
         self.skill = skill
         self.alumnus_id = alumnus_id
 
@@ -224,7 +232,8 @@ class Sector(db.Model):
         nullable=False
     )
 
-    def __init__(self, industry=None, alumnus_id=None):
+    def __init__(self, id=None, industry=None, alumnus_id=None):
+        self.id = id
         self.industry = industry
         self.alumnus_id = alumnus_id
 
