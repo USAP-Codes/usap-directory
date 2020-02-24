@@ -3,7 +3,7 @@ version: '3.7'
 services:
     api:
         build:
-            context: ./services/server
+            context: .
             dockerfile: Dockerfile
         entrypoint: ['sh', '/usr/usap/server/app.sh']
         volumes:
