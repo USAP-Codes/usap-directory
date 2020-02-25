@@ -15,7 +15,9 @@ class User(db.Model):
         backref=db.backref('users', uselist=False)
     )
 
-    def __init__(self, id=None, username=None, email=None, image_url=None):
+    def __init__(self, id=None, username=None,
+                 email=None, image_url=None):
+
         self.id = id
         self.username = username
         self.email = email
@@ -48,12 +50,24 @@ class Alumnus(db.Model):
         nullable=False
     )
 
-    work_history = db.relationship('WorkHistory', backref='alumni', lazy=True)
+    work_history = db.relationship(
+        'WorkHistory',
+        backref='alumni',
+        lazy=True
+    )
     emails = db.relationship('Email', backref='alumni', lazy=True)
-    phone_numbers = db.relationship('PhoneNumber', backref='alumni', lazy=True)
+    phone_numbers = db.relationship(
+        'PhoneNumber',
+        backref='alumni',
+        lazy=True
+    )
     majors = db.relationship('Major', backref='alumni', lazy=True)
     minors = db.relationship('Minor', backref='alumni', lazy=True)
-    expertise = db.relationship('Expertise', backref='alumni', lazy=True)
+    expertise = db.relationship(
+        'Expertise',
+        backref='alumni',
+        lazy=True
+    )
     sectors = db.relationship('Sector', backref='alumni', lazy=True)
 
     def __init__(self, id=None, image_url=None, first_name=None,
@@ -98,9 +112,9 @@ class WorkHistory(db.Model):
     end_date = db.Column(db.Date, nullable=False)
     title = db.Column(db.String, nullable=False)
 
-    def __init__(self, id=None, company_name=None, city=None, country=None,
-                 start_date=None, end_date=None, title=None,
-                 alumnus_id=None):
+    def __init__(self, id=None, company_name=None, city=None,
+                 country=None, start_date=None, end_date=None,
+                 title=None, alumnus_id=None):
 
         self.id = id
         self.company_name = company_name
@@ -191,7 +205,7 @@ class Minor(db.Model):
     )
 
     def __init__(self, id=None, subject=None, alumnus_id=None):
-        self.id = id    
+        self.id = id
         self.subject = subject
         self.alumnus_id = alumnus_id
 
