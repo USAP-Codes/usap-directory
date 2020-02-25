@@ -22,7 +22,7 @@ COPY ./requirements.txt /usr/usap/server/requirements.txt
 RUN pip install -r requirements.txt
 
 # entry script
-COPY ./app.sh /usr/usap/server/app.sh
+COPY ./service/server/app.sh /usr/usap/server/app.sh
 
 # modify permissions to run script
 RUN chmod +x /usr/usap/server/app.sh
