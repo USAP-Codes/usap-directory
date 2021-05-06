@@ -17,10 +17,10 @@ Werkzeug==0.16.0
 zipp==0.6.0
 
 Flask-RESTPlus==0.13.0
-flask-cors==3.0.8
+flask-cors==3.0.9
 Flask-Admin==1.5.4
 flask-bcrypt==0.7.1
-flask-cors==3.0.8
+flask-cors==3.0.9
 pep8==1.7.1
 gunicorn==20.0.4
 isort==4.3.21
